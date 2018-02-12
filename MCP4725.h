@@ -36,4 +36,3 @@ class MCP4725
 };
 
 #endif
-

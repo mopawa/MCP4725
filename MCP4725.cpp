@@ -70,19 +70,19 @@ void MCP4725::read(bool &err_r, uint16_t &dac_memory)
       }
     if (dac_r == eeprom_r) // Verify if values are consistent between MCP4725 DAC register and its EEPROM
     {
-      dac_memory = eeprom_r;
-	  err_r = false;
+      dac_memory = eeprom_r; // Returns DAC value
+	  err_r = false; // Returns no read error
     }
     else
     {
       dac_memory = 0;
-	  err_r = true; 
+	  err_r = true; // Returns read error
     }
   }
   else
   {
      dac_memory = 0;
-	 err_r = true; 
+	 err_r = true; // Returns read error
   }
 }
 
@@ -97,14 +97,14 @@ void MCP4725::write(bool &err_w, uint16_t dac_value)
   Wire.write(96); // The first byte transmitted defines the write mode (96 = writes to DAC register and EEPROM) | Refer to MCP4725 datasheet
   Wire.write(dac_value >> 4);                   // Upper data bits          (D11.D10.D9.D8.D7.D6.D5.D4)
   Wire.write((dac_value & 15) << 4);            // Lower data bits          (D3.D2.D1.D0.x.x.x.x)
-  uint8_t err = Wire.endTransmission(); // Store error value, should be 0 if no error
+  uint8_t err = Wire.endTransmission(); // Stores error value, should be 0 if no error
   delay(50); // Without this delay, a subsequent read would fail - not sure why?
   if (err != 0)
   {
-    err_w = true;
+    err_w = true; // Returns write error
   }
   else
   {
-    err_w = false;
+    err_w = false; // Returns no write error
   }
 }
